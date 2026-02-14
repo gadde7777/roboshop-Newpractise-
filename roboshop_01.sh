@@ -7,7 +7,7 @@ for instance in $@
 
 do
 
-Instance_id = $ ( aws ec2 run-instances \
+Instance_id=$(aws ec2 run-instances\
                 --image-id $AMI_ID \
                 --instance-type t3.micro \
                 --security-group-ids $SG_ID \
