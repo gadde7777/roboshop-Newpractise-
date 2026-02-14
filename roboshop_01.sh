@@ -7,7 +7,7 @@ for instance in $@
 
 do
 
-Instance_id=$(aws ec2 run-instances\
+instance_id  =$(aws ec2 run-instances\
                 --image-id $AMI_ID \
                 --instance-type t3.micro \
                 --security-group-ids $SG_ID \
@@ -19,13 +19,13 @@ Instance_id=$(aws ec2 run-instances\
  if [ $instance == "frontend" ]; then
 
  IP=$(aws ec2 describe-instances \
- --instance-ids Instance_id \
+ --instance-ids $instance_id \
  --query 'Reservations[].Instances[].PublicIpAddress'\
   --output text)
   else
 
    IP=$(aws ec2 describe-instances \
- --instance-ids Instance_id \
+ --instance-ids $instance_id \
  --query 'Reservations[].Instances[].PrivateIpAddress'\
   --output text)
 
