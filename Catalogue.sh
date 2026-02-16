@@ -70,7 +70,7 @@ npm install
 VALIDATE $? "Install npm dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
-VALIDATE $? "Create Systemctl service"
+VALIDATE $? "Created Systemctl service"
 
 systemctl daemon-reload
 VALIDATE $? "Deamon Reload service"
@@ -87,3 +87,4 @@ VALIDATE $? "Start catalogue service"
 
 # mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
 # mongosh --host MONGODB-SERVER-IPADDRESS
+
