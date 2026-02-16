@@ -45,15 +45,8 @@ PRIVATE_IP=$(aws ec2 describe-instances \
 # Verify the result
 echo "The private IP address is: $PRIVATE_IP"
 
-#   else
+done
 
-#    IP=$(aws ec2 describe-instances \
-#     --instance-ids $INSTANCE_ID\
-#     --query 'Reservations[].Instances[].PrivateIpAddress'\
-#     --output text)
-
-#  fi           
-
-# done
+   
 
 
