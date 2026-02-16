@@ -72,7 +72,7 @@ systemctl enable catalogue &>>$LOGS_FILE
 VALIDATE $? "Ensable catalogue service"
 
 systemctl start catalogue &>>$LOGS_FILE
-VALIDATE $? "Start Catalogue service"
+VALIDATE $? "Start catalogue service"
 
 # vim /etc/yum.repos.d/mongo.repo
 
