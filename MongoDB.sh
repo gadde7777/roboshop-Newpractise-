@@ -30,7 +30,7 @@ VALIDATE()
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Copying Mongo repo"
 
-dnf install mongodb-org -y 
+dnf install mongodb-org -y &>>$LOGS_FILE
 VALIDATE $? "Install Mongo DB Server"
 
 systemctl enable mongod 
@@ -40,6 +40,7 @@ systemctl start mongod
 VALIDATE $? "Start Mongo DB"
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+VALIDATE $? "Allowing Rempote Connections"
 
 systemctl restart mongod
 VALIDATE $? "reStart Mongo DB"
