@@ -27,23 +27,21 @@ INSTANCE_ID=$(aws ec2 run-instances \
  echo "Launched Instance ID: $INSTANCE_ID"
 
 
-#  if [ $instance == "frontend" ]; then
+ if [ $instance == "frontend" ]; then
 
-#  IP=$(aws ec2 describe-instances \
-#  --instance-ids $INSTANCE_ID\
-#  --query 'Reservations[].Instances[].PublicIpAddress'\
-#   --output text)
+IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+echo "The public IP is: $IP"
 
-PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-echo "The public IP is: $PUBLIC_IP"
+else
 
-PRIVATE_IP=$(aws ec2 describe-instances \
+IP=$(aws ec2 describe-instances \
     --instance-ids "$INSTANCE_ID" \
     --query 'Reservations[0].Instances[0].PrivateIpAddress' \
     --output text )
    
 # Verify the result
-echo "The private IP address is: $PRIVATE_IP"
+echo "The private IP address is: $IP"
+fi
 
 done
 
