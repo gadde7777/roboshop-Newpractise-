@@ -6,6 +6,13 @@
     DOMAIN_NAME="daws88straining.online"
     USERID=$(id -u)
 
+    if [ $USERID -ne 0 ]; then
+
+    echo -e "$R Run with root access $N" | tee -a $LOGS_FILE
+    exit 1
+    
+    fi
+
 for instance in $@
 
 do
