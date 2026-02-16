@@ -9,6 +9,7 @@ LOGS_FOLDER="/var/log/shell-script"
 LOGS_FILE="/var/log/shell-script/$0.log"
 
 if [ $USERID -ne 0 ]; then
+
 echo -e "$R Run with root access $N" | tee -a $LOGS_FILE
 exit 1
 fi

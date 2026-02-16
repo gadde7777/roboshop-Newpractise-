@@ -4,6 +4,7 @@
     AMI_ID="ami-0220d79f3f480ecf5"
     zone_ID="Z08598391AA5TMYW8RQL3"
     DOMAIN_NAME="daws88straining.online"
+    USERID=$(id -u)
 
 for instance in $@
 
