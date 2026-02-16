@@ -16,7 +16,7 @@ do
 #                 # --output text 
 #                 )
 
-     INSTANCE_ID=$(aws ec2 run-instances \
+INSTANCE_ID=$(aws ec2 run-instances \
                     --image-id $AMI_ID \
                     --instance-type t3.micro \
                     --security-group-ids $SG_ID \
@@ -27,21 +27,33 @@ do
  echo "Launched Instance ID: $INSTANCE_ID"
 
 
- if [ $instance == "frontend" ]; then
+#  if [ $instance == "frontend" ]; then
 
- IP=$(aws ec2 describe-instances \
- --instance-ids $INSTANCE_ID\
- --query 'Reservations[].Instances[].PublicIpAddress'\
-  --output text)
-  else
+#  IP=$(aws ec2 describe-instances \
+#  --instance-ids $INSTANCE_ID\
+#  --query 'Reservations[].Instances[].PublicIpAddress'\
+#   --output text)
 
-   IP=$(aws ec2 describe-instances \
-    --instance-ids $INSTANCE_ID\
-    --query 'Reservations[].Instances[].PrivateIpAddress'\
-    --output text)
+PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+echo "The public IP is: $PUBLIC_IP"
 
- fi           
+PRIVATE_IP=$(aws ec2 describe-instances \
+    --instance-ids "$INSTANCE_ID" \
+    --query 'Reservations[0].Instances[0].PrivateIpAddress' \
+    --output text )
+   
+# Verify the result
+echo "The private IP address is: $PRIVATE_IP"
 
-done
+#   else
+
+#    IP=$(aws ec2 describe-instances \
+#     --instance-ids $INSTANCE_ID\
+#     --query 'Reservations[].Instances[].PrivateIpAddress'\
+#     --output text)
+
+#  fi           
+
+# done
 
 
