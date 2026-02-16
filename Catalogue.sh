@@ -31,7 +31,7 @@ dnf module disable nodejs -y &>>$LOGS_FILE
 VALIDATE $? "Disable Nodejs"
 
 dnf module enable nodejs:20 -y &>>$LOGS_FILE
-VALIDATE $? "Disable Nodejs 20"
+VALIDATE $? "Enable Nodejs 20"
 
 dnf install nodejs -y &>>$LOGS_FILE
 VALIDATE $? "Install Nodejs"
@@ -53,5 +53,30 @@ VALIDATE $? "Creating App Directory"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOGS_FILE
 VALIDATE $? "Downloading Code"
 
-# cd /app 
-# unzip /tmp/catalogue.zip
+cd /app 
+VALIDATE $? "Moving to App Directory"
+
+unzip /tmp/catalogue.zip
+VALIDATE $? "Unzip Catalogue Code"
+
+npm install 
+VALIDATE $? "Install npm dependencies"
+
+cp catalogue.service /etc/systemd/system/catalogue.service
+VALIDATE $? "Create Systemctl service"
+
+systemctl daemon-reload
+VALIDATE $? "Deamon Reload service"
+
+systemctl enable catalogue &>>$LOGS_FILE
+VALIDATE $? "Ensable catalogue service"
+
+systemctl start catalogue &>>$LOGS_FILE
+VALIDATE $? "Start Catalogue service"
+
+# vim /etc/yum.repos.d/mongo.repo
+
+# dnf install mongodb-mongosh -y
+
+# mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
+# mongosh --host MONGODB-SERVER-IPADDRESS
