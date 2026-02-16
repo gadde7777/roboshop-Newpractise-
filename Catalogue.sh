@@ -4,10 +4,14 @@ G="\e[32m"
 Y="\e[33m"
 B="\e[34m"
 N="\e[0m"
- USERID=$(id -u)
+
+SCRIPT_DIR=$PWD
+
+USERID=$(id -u)
 
 LOGS_FOLDER="/var/log/shell-script"
 LOGS_FILE="/var/log/shell-script/$0.log"
+
 
 if [ $USERID -ne 0 ]; then
 
@@ -56,13 +60,16 @@ VALIDATE $? "Downloading Code"
 cd /app 
 VALIDATE $? "Moving to App Directory"
 
-unzip /tmp/catalogue.zip
+rm -rf /app/*
+VALIDATE $? "Deleting Old Code"
+
+unzip /tmp/catalogue.zip &>>$LOGS_FILE
 VALIDATE $? "Unzip Catalogue Code"
 
 npm install 
 VALIDATE $? "Install npm dependencies"
 
-cp catalogue.service /etc/systemd/system/catalogue.service
+cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Create Systemctl service"
 
 systemctl daemon-reload
