@@ -6,6 +6,7 @@ B="\e[34m"
 N="\e[0m"
 
 SCRIPT_DIR=$PWD
+MONGODB_HOST=mongodb.daws88straining.online
 
 USERID=$(id -u)
 
@@ -81,10 +82,13 @@ VALIDATE $? "Enable catalogue service"
 systemctl start catalogue &>>$LOGS_FILE
 VALIDATE $? "Start catalogue service"
 
-# vim /etc/yum.repos.d/mongo.repo
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
+VALIDATE $? "Copying MongoRepo"
 
-# dnf install mongodb-mongosh -y
+dnf install mongodb-mongosh -y &>>$LOGS_FILE
+VALIDATE $? "Install MongoDB mongosh"
 
-# mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
+ mongosh --host $MONGODB_HOST </app/db/master-data.js
+
 # mongosh --host MONGODB-SERVER-IPADDRESS
 
