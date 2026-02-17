@@ -42,7 +42,7 @@ VALIDATE $? "Enable redis"
 dnf install redis -y 
 VALIDATE $? "Install redis"
 
-sed -i -e '127.0.0.1/0.0.0.0/g' -e 'protected-mode /c protected-mode no'
+sed -i -e '127.0.0.1/0.0.0.0/g' -e 'protected-mode /c protected-mode no' /etc/redis/redis.conf
 VALIDATE $? "Allowing Remote Connections"
 
 systemctl enable redis 
