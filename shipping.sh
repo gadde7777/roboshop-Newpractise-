@@ -75,22 +75,31 @@ VALIDATE $? "Renaming Shipping Jar"
 cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
 VALIDATE $? "Created Systemctl service"
 
-systemctl daemon-reload
+systemctl daemon-reload &>>$LOGS_FILE
 VALIDATE $? "Daemon Reload"
 
-systemctl enable shipping 
+systemctl enable shipping &>>$LOGS_FILE
 VALIDATE $? "Enabling Shipping"
 
-systemctl start shipping
+systemctl start shipping &>>$LOGS_FILE
 VALIDATE $? "Start Shipping"
 
-dnf install mysql -y 
+dnf install mysql -y &>>$LOGS_FILE
 VALIDATE $? "Installing Mysql"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
+mysql -h mysqldb.daws88straining.online -uroot -pRoboShop@1 -e 'use cities'
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
+if [ $? -ne 0 ]; then
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOGS_FILE
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOGS_FILE
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOGS_FILE
 
-systemctl restart shipping
+VALIDATE $? "Loading data in to mySQLDB"
+
+else
+echo -e " Data already loaded ---$G Skipping $N"
+fi
+
+systemctl restart shipping &>>$LOGS_FILE
+VALIDATE $? "Restarting Mysql"
