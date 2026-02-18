@@ -3,7 +3,7 @@
 
 i=1
 
-while [ $i -ne 0 ]
+while [ $i -le 5 ]
 
 do
 
