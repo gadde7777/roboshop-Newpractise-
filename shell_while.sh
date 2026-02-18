@@ -8,6 +8,6 @@ while [ $i -ne 0 ]
 do
 
 echo "Welcome $i times"
-(i++)
+((i++))
 
 done
